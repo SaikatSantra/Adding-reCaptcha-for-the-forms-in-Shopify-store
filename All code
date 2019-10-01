@@ -1,0 +1,28 @@
+Disable submit button
+<input type="submit" id="contactFormSubmit" value="Send" class="btn" disabled />
+Adding reCaptcha into the form
+Adding bellow code before the closing </head> tag:
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+Adding the container div tag to show reCaptcha
+<div id="re-captcha"></div>
+
+Then adding the bellow javascript code before the closing </body> tag:
+<script>
+  var actCallback = function (response) {
+    $('#contactFormSubmit').prop("disabled", false);
+    $('#re-captcha').remove();
+  };
+  var expCallback = function() {
+    $('#contactFormSubmit').prop("disabled", true);
+  };
+
+  var onloadCallback = function () {
+    var widget = grecaptcha.render(document.getElementById("re-captcha"), {
+      'sitekey' : "123456789", // Sitekey, Retrieving from reCaptcha
+      'theme': "light",
+      'callback' : actCallback,
+      'expired-callback': expCallback,
+    });
+  }
+</script>
